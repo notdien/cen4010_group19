@@ -8,5 +8,15 @@ const app = (0, express_1.default)();
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
+app.post('/create', (req, res) => {
+    const { name, description, reason } = req.body;
+    const newList = {
+        name,
+        description,
+        reason,
+        todos: []
+    };
+    res.status(201).json(newList);
+});
 app.listen(5678);
 console.log("Server is running...");
