@@ -8,6 +8,7 @@ const app = (0, express_1.default)();
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
+app.use(express_1.default.json());
 app.post('/create', (req, res) => {
     const { name, description, reason } = req.body;
     const newList = {

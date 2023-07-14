@@ -13,7 +13,7 @@ interface New_list {
     todos: any[];
 }
 
-
+app.use(express.json());
 app.post('/create', (req: Request, res: Response) => {
     const { name, description, reason } = req.body;
 
@@ -25,8 +25,6 @@ app.post('/create', (req: Request, res: Response) => {
     }
 
     res.status(201).json(newList)
-
-
 });
 
 app.listen(5678);
