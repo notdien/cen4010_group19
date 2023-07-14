@@ -1,0 +1,26 @@
+{
+  "name": "cen4010_group19",
+  "version": "1.0.0",
+  "description": "IOS app TO-do list that will allow users to create an account and create their own personal to-do lists!",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "all": "^0.0.0",
+    "express": "^4.18.2",
+    "mongodb": "^5.7.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^20.4.2",
+    "concurrently": "^8.2.0",
+    "nodemon": "^2.0.22",
+    "typescript": "^5.1.6"
+  }
+}
