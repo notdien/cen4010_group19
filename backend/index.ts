@@ -26,5 +26,17 @@ app.post('/create', (req: Request, res: Response) => {
     return res.status(201).json({Success: "Created new To-do Successfully!", newTodo});
 });
 
+app.delete('/delete', (req: Request, res: Response) => {
+    const {name} = req.body;
+
+    const deleteName: object = {
+        name
+    }
+
+    // deleteItem(deleteName);
+
+    return res.status(201).json({Success: "Deleted list successfully!", deleteName});
+})
+
 app.listen(5678);
 console.log("Server is running...");
