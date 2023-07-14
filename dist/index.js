@@ -8,15 +8,15 @@ const app = (0, express_1.default)();
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
+app.use(express_1.default.json());
 app.post('/create', (req, res) => {
-    const { name, description, reason } = req.body;
-    const newList = {
+    const { name, description, creation_date } = req.body;
+    const newTodo = {
         name,
         description,
-        reason,
-        todos: []
+        creation_date
     };
-    res.status(201).json(newList);
+    return res.status(201).json({ Success: "Created new To-do Successfully!", newTodo });
 });
 app.listen(5678);
 console.log("Server is running...");
