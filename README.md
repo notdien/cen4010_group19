@@ -4,8 +4,14 @@ IOS app TO-do list that will allow users to create an account and create their o
 
 ## Stack
 
-We plan to create the IOS app using React-Native, ExpressJS and MongoDB
+We plan to create the IOS app using React-Native, ExpressJS - Typescript and MongoDB
 
 ## How to use
 
-Please remember to NPM init/ NPM install for node_modules - afterwards CD into backend folder and type in "npm run dev"
+### Please remember to NPM init/ NPM install for node_modules - afterwards CD into backend folder and type in "npm run dev".
+
+### Run 'npx tsc' if you need to update your JS file from your TS file.
+
+### Create a new keys.ts in your backend to ensure that you have connection to the DB/ I can provide the file.
+
+### Make sure all your created JS files from your TS files are in the dist file or you will run into errors.
