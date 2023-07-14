@@ -18,7 +18,7 @@ const ping = async function() {
     }
 }
 
-interface creation {
+interface item {
     name: string,
     description: string,
     creation_date: string
@@ -27,7 +27,7 @@ interface creation {
 
 // ping();
 
-const addToDo = async function(creationData: creation) {
+const addToDo = async function(creationData: item) {
     try {
         await client.connect();
 
@@ -47,7 +47,7 @@ const addToDo = async function(creationData: creation) {
     }
 }
 
-// const new_do: creation = {
+// const new_do: item = {
 //     name: "Water my plants",
 //     description: "My plants are dying",
 //     creation_date: "7/14/2023"
@@ -111,5 +111,26 @@ const updateItem = async function(name: object, updateData: object) {
 // updateItem({"name": "test"}, {"description": "Code my update for me please"})
 
 const getList = async function() {
-    
+    try {
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('To-dos');
+
+        const cursor = await myCollection.find().toArray();
+        if (cursor.length === 0) {
+            console.log("TO-do list is empty");
+        }
+        else {
+            cursor.forEach((doc: any) => console.log(doc));
+            return cursor
+        }
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error ${error}`);
+        }
+        throw error;
+    } finally {
+        await client.close();
+    }
 }
+
+// getList();

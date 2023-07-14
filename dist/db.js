@@ -48,7 +48,7 @@ const addToDo = function (creationData) {
         }
     });
 };
-// const new_do: creation = {
+// const new_do: item = {
 //     name: "Water my plants",
 //     description: "My plants are dying",
 //     creation_date: "7/14/2023"
@@ -106,4 +106,30 @@ const updateItem = function (name, updateData) {
         }
     });
 };
-updateItem({ "name": "test" }, { "description": "Code my update for me please" });
+// updateItem({"name": "test"}, {"description": "Code my update for me please"})
+const getList = function () {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            const myDB = yield client.db('To_do_list');
+            const myCollection = myDB.collection('To-dos');
+            const cursor = yield myCollection.find().toArray();
+            if (cursor.length === 0) {
+                console.log("TO-do list is empty");
+            }
+            else {
+                cursor.forEach((doc) => console.log(doc));
+                return cursor;
+            }
+        }
+        catch (error) {
+            if (error instanceof MongoServerError) {
+                console.log(`Error ${error}`);
+            }
+            throw error;
+        }
+        finally {
+            yield client.close();
+        }
+    });
+};
+getList();
