@@ -1,4 +1,5 @@
-import express, { Express, Request, Response } from 'express';
+import { error } from 'console';
+import express, { Express, NextFunction, Request, Response } from 'express';
 
 const app: Express = express();
 
@@ -6,25 +7,23 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server');
 });
 
-interface New_list {
+interface new_todo {
     name: string;
     description: string;
-    reason: string;
-    todos: any[];
+    creation_date: string;
 }
 
 app.use(express.json());
 app.post('/create', (req: Request, res: Response) => {
-    const { name, description, reason } = req.body;
+    const { name, description, creation_date } = req.body;
 
-    const newList: New_list = {
+    const newTodo: new_todo = {
         name,
         description,
-        reason,
-        todos: []
+        creation_date
     }
 
-    res.status(201).json(newList)
+    return res.status(201).json({Success: "Created new To-do Successfully!", newTodo});
 });
 
 app.listen(5678);

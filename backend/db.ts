@@ -2,9 +2,7 @@ import {uri_key} from './keys';
 
 const { MongoClient, MongoServerError } = require('mongodb');
 
-let uri = uri_key;
-
-const client = new MongoClient(uri);
+const client = new MongoClient(uri_key);
 
 const ping = async function() {
     try {
@@ -12,9 +10,12 @@ const ping = async function() {
 
         await client.db("admin").command({ping: 1});
         console.log("Connected to DB!");
-    } finally {
+    } catch(error) {
+        console.error('Error connecting to DB:', error);
+    }
+    finally {
         await client.close();
     }
 }
 
-ping();
+// ping();
