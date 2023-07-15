@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
 const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
@@ -48,6 +49,7 @@ const addToDo = function (creationData) {
         }
     });
 };
+exports.addToDo = addToDo;
 // const new_do: item = {
 //     name: "Water my plants",
 //     description: "My plants are dying",
@@ -78,6 +80,7 @@ const deleteItem = function (name) {
         }
     });
 };
+exports.deleteItem = deleteItem;
 // deleteItem({"name": "Fight a bear!"});
 const updateItem = function (name, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -106,6 +109,7 @@ const updateItem = function (name, updateData) {
         }
     });
 };
+exports.updateItem = updateItem;
 // updateItem({"name": "test"}, {"description": "Code my update for me please"})
 const getList = function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -132,4 +136,5 @@ const getList = function () {
         }
     });
 };
-getList();
+exports.getList = getList;
+// getList();

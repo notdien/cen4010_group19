@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const db_1 = require("./db");
 const app = (0, express_1.default)();
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
@@ -16,7 +17,16 @@ app.post('/create', (req, res) => {
         description,
         creation_date
     };
+    (0, db_1.addToDo)(newTodo);
     return res.status(201).json({ Success: "Created new To-do Successfully!", newTodo });
+});
+app.delete('/to-do/:name', (req, res) => {
+    const { name } = req.body;
+    const deleteName = {
+        name: String
+    };
+    (0, db_1.deleteItem)(deleteName);
+    return res.status(201).json({ Success: "Deleted list successfully!", deleteName });
 });
 app.listen(5678);
 console.log("Server is running...");

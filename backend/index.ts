@@ -1,5 +1,6 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
+import { addToDo, deleteItem, updateItem, getList } from './db'
 
 const app: Express = express();
 
@@ -23,18 +24,18 @@ app.post('/create', (req: Request, res: Response) => {
         creation_date
     }
 
+    addToDo(newTodo)
     return res.status(201).json({Success: "Created new To-do Successfully!", newTodo});
 });
 
-app.delete('/delete', (req: Request, res: Response) => {
+app.delete('/to-do/:name', (req: Request, res: Response) => {
     const {name} = req.body;
 
     const deleteName: object = {
-        name
+        name: String
     }
 
-    // deleteItem(deleteName);
-
+    deleteItem(deleteName);
     return res.status(201).json({Success: "Deleted list successfully!", deleteName});
 })
 

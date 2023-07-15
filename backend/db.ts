@@ -27,7 +27,7 @@ interface item {
 
 // ping();
 
-const addToDo = async function(creationData: item) {
+export const addToDo = async function(creationData: item) {
     try {
         await client.connect();
 
@@ -55,7 +55,7 @@ const addToDo = async function(creationData: item) {
 
 // addToDo(new_do)
 
-const deleteItem = async function(name: object) {
+export const deleteItem = async function(name: object) {
     try {
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
@@ -79,7 +79,7 @@ const deleteItem = async function(name: object) {
 
 // deleteItem({"name": "Fight a bear!"});
 
-const updateItem = async function(name: object, updateData: object) {
+export const updateItem = async function(name: object, updateData: object) {
     try {
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
@@ -110,7 +110,7 @@ const updateItem = async function(name: object, updateData: object) {
 
 // updateItem({"name": "test"}, {"description": "Code my update for me please"})
 
-const getList = async function() {
+export const getList = async function() {
     try {
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
