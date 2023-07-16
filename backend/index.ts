@@ -1,8 +1,20 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords } from './db'
+import { secret_key } from './keys';
 
+// const session = require('express-session'); 
+import session, { Session } from 'express-session';
 const app: Express = express();
+
+app.use(express.json());
+app.use(
+    session({
+        secret: secret_key,
+        resave: true,
+        saveUninitialized: true
+    })
+)
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Express + TypeScript Server');
@@ -10,14 +22,12 @@ app.get('/', (req: Request, res: Response) => {
 
 // basic commands
 
+// creates a new to-do and adds to the DB
 interface new_todo {
     name: string;
     description: string;
     creation_date: string;
 }
-
-// creates a new to-do and adds to the DB
-app.use(express.json());
 app.post('/create', async (req: Request, res: Response) => {
     const { name, description, creation_date } = req.body;
 
@@ -98,8 +108,8 @@ app.post('/login', async (req: Request, res: Response) => {
         return res.status(401).json({ Message: "Password is incorrect, please check your username/password again "});
     }
 
-    // other wise - login ( work in progress )
-    // req.session.user = existingUser._id;
+    // other wise - login
+    res.json({ Message: 'Login successful!' });
 
 })
 
