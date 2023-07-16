@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
+exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
 const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
@@ -29,6 +29,7 @@ const ping = function () {
     });
 };
 // ping();
+// basic commands
 const addToDo = function (creationData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -140,4 +141,30 @@ const getList = function () {
     });
 };
 exports.getList = getList;
-// getList();
+const createUser = function (userCreation) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const myDB = yield client.db('To_do_list');
+            const myCollection = myDB.collection("Users");
+            const result = yield myCollection.insertOne(userCreation);
+            console.log("Created new user successfully!");
+        }
+        catch (error) {
+            if (error instanceof MongoServerError) {
+                console.log(`Error ${error}`);
+            }
+            throw error;
+        }
+        finally {
+            yield client.close();
+        }
+    });
+};
+exports.createUser = createUser;
+// const new_User: user = {
+//     username: "diennn69",
+//     email: "thedien7000@gmail.com",
+//     password: "123456"
+// }
+// createUser(new_User);

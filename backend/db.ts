@@ -145,3 +145,37 @@ export const getList = async function() {
 // getList();
 
 // user login
+
+interface user {
+    username: string,
+    email: string,
+    password: string
+}
+
+export const createUser = async function(userCreation: user) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection("Users");
+    
+        const result = await myCollection.insertOne(userCreation);
+    
+        console.log("Created new user successfully!")
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error ${error}`);
+        }
+        throw error;
+    } finally {
+        await client.close()
+    }
+}
+
+// const new_User: user = {
+//     username: "diennn69",
+//     email: "thedien7000@gmail.com",
+//     password: "123456"
+// }
+
+// createUser(new_User);

@@ -31,12 +31,12 @@ app.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 }));
 app.delete('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var name = req.params.name;
-    (0, db_1.deleteItem)({ name });
-    return res.status(201).json({ Success: "Deleted list successfully!", name });
+    var results = (0, db_1.deleteItem)({ name });
+    return res.status(200).send(results);
 }));
 app.get('/to-do', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var results = yield (0, db_1.getList)();
-    return res.status(201).send(results);
+    return res.status(200).send(results);
 }));
 app.put('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var name = req.params.name;
@@ -46,7 +46,17 @@ app.put('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function
         creation_date
     };
     (0, db_1.updateItem)({ name }, newChanges);
-    return res.status(201).send(newChanges);
+    return res.status(200).send(newChanges);
+}));
+app.post('/user-creation', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, email, password } = req.body;
+    const newUser = {
+        username,
+        email,
+        password
+    };
+    (0, db_1.createUser)(newUser);
+    return res.status(201).json({ Success: "Created new user successfully!", newUser });
 }));
 app.listen(5678);
 console.log("Server is running...");
