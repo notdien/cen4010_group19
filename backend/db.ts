@@ -6,6 +6,9 @@ const client = new MongoClient(uri_key);
 
 const bcrypt = require('bcrypt');
 
+// uncomment if needed
+
+// pings the db to make sure it works for
 const ping = async function() {
     try {
         await client.connect();
@@ -20,6 +23,8 @@ const ping = async function() {
     }
 }
 
+
+// interfaces are prototyping for a object
 interface item {
     name: string,
     description: string,
@@ -29,8 +34,8 @@ interface item {
 
 // ping();
 
-// basic commands
-
+// basic commands - add, delete, update and read users
+// add a new to do
 export const addToDo = async function(creationData: item) {
     try {
         await client.connect();
@@ -59,6 +64,7 @@ export const addToDo = async function(creationData: item) {
 
 // addToDo(new_do)
 
+// deletes a to-do
 export const deleteItem = async function(name: object) {
     try {
         await client.connect();
@@ -83,8 +89,10 @@ export const deleteItem = async function(name: object) {
     }
 }
 
+// this is a wrong name to test - enter a correct name to make sure it deletes
 // deleteItem({"name": "Fight a bear!"});
 
+// updates a item
 export const updateItem = async function(name: object, updateData: object) {
     try {
 
@@ -119,6 +127,7 @@ export const updateItem = async function(name: object, updateData: object) {
 
 // updateItem({"name": "test"}, {"description": "Code my update for me please"})
 
+// gets all the to-dos
 export const getList = async function() {
     try {
         await client.connect();
@@ -147,7 +156,7 @@ export const getList = async function() {
 // getList();
 
 // user login
-
+// creates a new users
 export const createUser = async function(username: string, password: string) {
     try {
         await client.connect();
@@ -176,6 +185,7 @@ export const createUser = async function(username: string, password: string) {
 
 // createUser(("Sean"), ("54321"));
 
+// finds users by name
 export const findUserByUsername = async function(username: string) {
     try {
         await client.connect();

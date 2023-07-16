@@ -8,6 +8,8 @@ We plan to create the IOS app using React-Native, ExpressJS - Typescript and Mon
 
 ## How to use
 
+### 'npm install -g typescript' to install ts
+
 ### Please remember to NPM install for node_modules - afterwards CD into backend folder and type in "npm run dev".
 
 ### Create a new keys.ts in your backend to ensure that you have connection to the DB/ I can provide the file.
