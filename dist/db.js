@@ -14,6 +14,8 @@ const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
 const bcrypt = require('bcrypt');
+// uncomment if needed
+// pings the db to make sure it works for
 const ping = function () {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -30,7 +32,8 @@ const ping = function () {
     });
 };
 // ping();
-// basic commands
+// basic commands - add, delete, update and read users
+// add a new to do
 const addToDo = function (creationData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -58,6 +61,7 @@ exports.addToDo = addToDo;
 //     creation_date: "7/14/2023"
 // }
 // addToDo(new_do)
+// deletes a to-do
 const deleteItem = function (name) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -84,7 +88,9 @@ const deleteItem = function (name) {
     });
 };
 exports.deleteItem = deleteItem;
+// this is a wrong name to test - enter a correct name to make sure it deletes
 // deleteItem({"name": "Fight a bear!"});
+// updates a item
 const updateItem = function (name, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -115,6 +121,7 @@ const updateItem = function (name, updateData) {
 };
 exports.updateItem = updateItem;
 // updateItem({"name": "test"}, {"description": "Code my update for me please"})
+// gets all the to-dos
 const getList = function () {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -144,6 +151,7 @@ const getList = function () {
 exports.getList = getList;
 // getList();
 // user login
+// creates a new users
 const createUser = function (username, password) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -171,6 +179,7 @@ const createUser = function (username, password) {
 };
 exports.createUser = createUser;
 // createUser(("Sean"), ("54321"));
+// finds users by name
 const findUserByUsername = function (username) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
