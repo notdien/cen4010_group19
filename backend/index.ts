@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(
     session({
         secret: secret_key,
-        resave: true,
+        resave: false,
         saveUninitialized: true
     })
 )
@@ -92,6 +92,12 @@ app.post('/signup', async (req: Request, res: Response) => {
      res.status(201).json({ Message: 'New user created successfully!' })
 })
 
+declare module 'express-session' {
+    export interface SessionData {
+        user: { [key: string] : any};
+    }
+}
+
 // user login
 app.post('/login', async (req: Request, res: Response) => {
     const { username, password } = req.body;
@@ -109,6 +115,7 @@ app.post('/login', async (req: Request, res: Response) => {
     }
 
     // other wise - login
+    req.session.user = existingUser._id;
     res.json({ Message: 'Login successful!' });
 
 })
