@@ -59,6 +59,7 @@ exports.addToDo = addToDo;
 const deleteItem = function (name) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield client.connect();
             const myDB = yield client.db('To_do_list');
             const myCollection = myDB.collection('To-dos');
             const result = yield myCollection.deleteOne(name);
@@ -85,6 +86,7 @@ exports.deleteItem = deleteItem;
 const updateItem = function (name, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield client.connect();
             const myDB = yield client.db('To_do_list');
             const myCollection = myDB.collection('To-dos');
             const newChange = {
@@ -114,6 +116,7 @@ exports.updateItem = updateItem;
 const getList = function () {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            yield client.connect();
             const myDB = yield client.db('To_do_list');
             const myCollection = myDB.collection('To-dos');
             const cursor = yield myCollection.find().toArray();

@@ -27,6 +27,8 @@ interface item {
 
 // ping();
 
+// basic commands
+
 export const addToDo = async function(creationData: item) {
     try {
         await client.connect();
@@ -57,6 +59,8 @@ export const addToDo = async function(creationData: item) {
 
 export const deleteItem = async function(name: object) {
     try {
+        await client.connect();
+
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
 
@@ -81,6 +85,9 @@ export const deleteItem = async function(name: object) {
 
 export const updateItem = async function(name: object, updateData: object) {
     try {
+
+        await client.connect();
+
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
 
@@ -112,6 +119,8 @@ export const updateItem = async function(name: object, updateData: object) {
 
 export const getList = async function() {
     try {
+        await client.connect();
+
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
 
@@ -134,3 +143,5 @@ export const getList = async function() {
 }
 
 // getList();
+
+// user login
