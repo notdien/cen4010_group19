@@ -4,6 +4,8 @@ const { MongoClient, MongoServerError } = require('mongodb');
 
 const client = new MongoClient(uri_key);
 
+const bcrypt = require('bcrypt');
+
 const ping = async function() {
     try {
         await client.connect();
@@ -146,36 +148,57 @@ export const getList = async function() {
 
 // user login
 
-interface user {
-    username: string,
-    email: string,
-    password: string
-}
-
-export const createUser = async function(userCreation: user) {
+export const createUser = async function(username: string, password: string) {
     try {
         await client.connect();
 
         const myDB = await client.db('To_do_list');
-        const myCollection = myDB.collection("Users");
-    
-        const result = await myCollection.insertOne(userCreation);
-    
-        console.log("Created new user successfully!")
+        const myCollection = myDB.collection('Users');
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = {
+            username,
+            password: hashedPassword
+        }
+
+        const results = await myCollection.insertOne(user);
+        console.log("Created new user successfully!");
     } catch (error) {
         if(error instanceof MongoServerError) {
             console.log(`Error ${error}`);
         }
         throw error;
     } finally {
-        await client.close()
+        await client.close();
     }
 }
 
-// const new_User: user = {
-//     username: "diennn69",
-//     email: "thedien7000@gmail.com",
-//     password: "123456"
-// }
+// createUser(("Sean"), ("54321"));
 
-// createUser(new_User);
+export const findUserByUsername = async function(username: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users');
+
+        const results = await myCollection.findOne({ username });
+        console.log (results);
+        return results
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+// findUserByUsername("Dien")
+
+// compare passwords to make sure they are correct
+export const comparePasswords = async function(password: string, hashedPassword: string) {
+    return bcrypt.compare(password, hashedPassword);
+}

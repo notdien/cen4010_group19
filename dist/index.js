@@ -48,15 +48,17 @@ app.put('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function
     (0, db_1.updateItem)({ name }, newChanges);
     return res.status(200).send(newChanges);
 }));
-app.post('/user-creation', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, email, password } = req.body;
-    const newUser = {
-        username,
-        email,
-        password
-    };
-    (0, db_1.createUser)(newUser);
-    return res.status(201).json({ Success: "Created new user successfully!", newUser });
+// user login
+app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username, password } = req.body;
+    const existingUser = yield (0, db_1.findUserByUsername)(username);
+    if (existingUser) {
+        return res.status(400).json({ Message: 'Username already exists!', existingUser });
+    }
+    const newUser = yield (0, db_1.createUser)(username, password);
+    res.status(201).json({ Message: 'New user created successfully!' });
+    // createUser(username, password);
+    // return res.status(201).json({Success: "Created new user successfully!"})
 }));
 app.listen(5678);
 console.log("Server is running...");

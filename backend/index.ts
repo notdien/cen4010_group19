@@ -1,6 +1,6 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
-import { addToDo, deleteItem, updateItem, getList, createUser } from './db'
+import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords } from './db'
 
 const app: Express = express();
 
@@ -64,23 +64,21 @@ app.put('/to-do/:name', async (req: Request, res: Response) => {
 
 // user login
 
-interface user_info  {
-    username: string,
-    email: string,
-    password: string
-}
+app.post('/signup', async (req: Request, res: Response) => {
 
-app.post('/user-creation', async (req: Request, res: Response) => {
-    const { username, email, password } = req.body;
+    const { username, password } = req.body
 
-    const newUser: user_info = {
-        username,
-        email,
-        password
-    }
+     const existingUser = await findUserByUsername(username);
+     if (existingUser) {
+        return res.status(400).json({ Message: 'Username already exists!', existingUser })
+     }
 
-    createUser(newUser);
-    return res.status(201).json({Success: "Created new user successfully!", newUser})
+     const newUser = await createUser(username, password)
+     res.status(201).json({ Message: 'New user created successfully!' })
+
+    // createUser(username, password);
+
+    // return res.status(201).json({Success: "Created new user successfully!"})
 })
 
 app.listen(5678);
