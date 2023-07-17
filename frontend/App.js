@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,TouchableOpacity  } from 'react-native';
-
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import SignUpScreen from './SignUpScreen';
+import LoginScreen from './LoginScreen';
 
 export default function App() {
   const [redirectToSignUp, setRedirectToSignUp] = useState(false);
@@ -21,25 +21,11 @@ export default function App() {
   };
 
   if (redirectToSignUp) {
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-          <Text>Back</Text>
-        </TouchableOpacity>
-        <Text>Sign Up Screen</Text>
-      </View>
-    );
+    return <SignUpScreen handleBackPress={handleBackPress} />;
   }
 
   if (redirectToLogin) {
-    return (
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
-          <Text>Back</Text>
-        </TouchableOpacity>
-        <Text>Login Screen</Text>
-      </View>
-    );
+    return <LoginScreen handleBackPress={handleBackPress} />;
   }
 
   return (
@@ -69,6 +55,7 @@ export default function App() {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
