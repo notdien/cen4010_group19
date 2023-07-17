@@ -1,31 +1,71 @@
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity  } from 'react-native';
 
 
 export default function App() {
+  const [redirectToSignUp, setRedirectToSignUp] = useState(false);
+  const [redirectToLogin, setRedirectToLogin] = useState(false);
+
+  const handleSignUpPress = () => {
+    setRedirectToSignUp(true);
+  };
+
+  const handleLoginPress = () => {
+    setRedirectToLogin(true);
+  };
+
+  const handleBackPress = () => {
+    setRedirectToSignUp(false);
+    setRedirectToLogin(false);
+  };
+
+  if (redirectToSignUp) {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+          <Text>Back</Text>
+        </TouchableOpacity>
+        <Text>Sign Up Screen</Text>
+      </View>
+    );
+  }
+
+  if (redirectToLogin) {
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
+          <Text>Back</Text>
+        </TouchableOpacity>
+        <Text>Login Screen</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to TaskHub</Text>
+      <Text style={styles.welcome}>Welcome to</Text>
+      <Text style={styles.title}>TaskHUB</Text>
+
       <Text style={styles.description}>The App that reminds you.</Text>
       <Text></Text>
       <Text></Text>
       <Text></Text>
-      <Text>Get started here!</Text>
+      <Text style={styles.centerp}>Get started here!</Text>
       <View style={styles.buttonsContainer}>
-        <Text style={styles.button}>Create an Account</Text>
-      </View>
-      <Text></Text>
-      <Text></Text>
-      <Text></Text>
-      <Text>Login Here!</Text>
-      <View style={styles.buttonsContainer}>
-        <Text style={styles.button}>Login</Text>
-      </View>
-      <Text></Text><Text></Text>
-      <Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text>
-      <Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text>
+        <TouchableOpacity style={styles.button} onPress={handleSignUpPress}>
+          <Text>Create an Account</Text>
+        </TouchableOpacity>
+        <Text></Text>
+       <Text></Text>
+        <Text></Text>
+        <Text style={styles.centerp}>           Login Here!</Text>
+        <TouchableOpacity style={styles.button} onPress={handleLoginPress}>
+          <Text>Login</Text>
+        </TouchableOpacity>
+ <Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text>
       <Text>Brought to you by Group 19.</Text>
-      <StatusBar style="auto" />
+      </View>
     </View>
   );
 }
@@ -39,19 +79,28 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     paddingHorizontal: 20,
   },
-  welcome: {
-    fontSize: 24,
+  title: {
+    fontSize: 40,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 100,
+  },
+  welcome: {
+    fontSize: 20,
+    fontWeight: 'light',
+    marginBottom: 5,
   },
   description: {
     fontSize: 16,
-    marginBottom: 20,
+    marginBottom: 10,
+  },
+  centerp: {
+    fontSize: 16,
   },
   buttonsContainer: {
     marginBottom: 10,
   },
   button: {
+    alignItems: 'center',
     fontSize: 18,
     fontWeight: 'bold',
     marginVertical: 5,
