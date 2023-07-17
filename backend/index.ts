@@ -1,7 +1,7 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords } from './db'
-import { secret_key } from './keys';
+import { uri_key } from './keys';
 
 // const session = require('express-session'); 
 import session, { Session } from 'express-session';
@@ -10,7 +10,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(
     session({
-        secret: secret_key,
+        secret: uri_key,
         resave: false,
         saveUninitialized: true
     })
