@@ -20,7 +20,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, express_session_1.default)({
-    secret: keys_1.secret_key,
+    secret: keys_1.uri_key,
     resave: false,
     saveUninitialized: true
 }));
