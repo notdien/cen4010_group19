@@ -4,6 +4,11 @@ const { MongoClient, MongoServerError } = require('mongodb');
 
 const client = new MongoClient(uri_key);
 
+const bcrypt = require('bcrypt');
+
+// uncomment if needed
+
+// pings the db to make sure it works for
 const ping = async function() {
     try {
         await client.connect();
@@ -18,6 +23,8 @@ const ping = async function() {
     }
 }
 
+
+// interfaces are prototyping for a object
 interface item {
     name: string,
     description: string,
@@ -27,7 +34,9 @@ interface item {
 
 // ping();
 
-const addToDo = async function(creationData: item) {
+// basic commands - add, delete, update and read users
+// add a new to do
+export const addToDo = async function(creationData: item) {
     try {
         await client.connect();
 
@@ -55,8 +64,11 @@ const addToDo = async function(creationData: item) {
 
 // addToDo(new_do)
 
-const deleteItem = async function(name: object) {
+// deletes a to-do
+export const deleteItem = async function(name: object) {
     try {
+        await client.connect();
+
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
 
@@ -77,10 +89,15 @@ const deleteItem = async function(name: object) {
     }
 }
 
+// this is a wrong name to test - enter a correct name to make sure it deletes
 // deleteItem({"name": "Fight a bear!"});
 
-const updateItem = async function(name: object, updateData: object) {
+// updates a item
+export const updateItem = async function(name: object, updateData: object) {
     try {
+
+        await client.connect();
+
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
 
@@ -110,8 +127,11 @@ const updateItem = async function(name: object, updateData: object) {
 
 // updateItem({"name": "test"}, {"description": "Code my update for me please"})
 
-const getList = async function() {
+// gets all the to-dos
+export const getList = async function() {
     try {
+        await client.connect();
+
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('To-dos');
 
@@ -134,3 +154,61 @@ const getList = async function() {
 }
 
 // getList();
+
+// user login
+// creates a new users
+export const createUser = async function(username: string, password: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users');
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = {
+            username,
+            password: hashedPassword
+        }
+
+        const results = await myCollection.insertOne(user);
+        console.log("Created new user successfully!");
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error ${error}`);
+        }
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+// createUser(("Sean"), ("54321"));
+
+// finds users by name
+export const findUserByUsername = async function(username: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users');
+
+        const results = await myCollection.findOne({ username });
+        console.log (results);
+        return results
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+// findUserByUsername("Dien")
+
+// compare passwords to make sure they are correct
+export const comparePasswords = async function(password: string, hashedPassword: string) {
+    return bcrypt.compare(password, hashedPassword);
+}
