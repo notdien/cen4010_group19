@@ -18,9 +18,12 @@ We plan to create the IOS app using React-Native, ExpressJS - Typescript and Mon
 
 ## How to use "Frontend"
 
+### Download Expo Go App 
+
 ### CD into frontend folder.
 
 ### Run the "NPM install" commman in terminal.
 
-### Type in "npx expo start --tunnel" to start up application without error using Expo Go. It maky ask to download additional items, so type yes if it does. 
+### Type in "npx expo start --tunnel" to start up application without error using Expo Go. It may ask to download additional items, so type yes if it does. 
 
+### A QR Code is given. Scan QR code with regular camera. A redirect will be sent to Expo Go. And you should be good to go
