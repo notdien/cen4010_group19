@@ -31,7 +31,7 @@ const ping = function () {
         }
     });
 };
-// ping();
+ping();
 // basic commands - add, delete, update and read users
 // add a new to do
 const addToDo = function (creationData) {
@@ -55,6 +55,7 @@ const addToDo = function (creationData) {
     });
 };
 exports.addToDo = addToDo;
+//test post method for adding a new task to the database
 // const new_do: item = {
 //     name: "Water my plants",
 //     description: "My plants are dying",
@@ -90,7 +91,7 @@ const deleteItem = function (name) {
 exports.deleteItem = deleteItem;
 // this is a wrong name to test - enter a correct name to make sure it deletes
 // deleteItem({"name": "Fight a bear!"});
-// updates a item
+// updates an item
 const updateItem = function (name, updateData) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

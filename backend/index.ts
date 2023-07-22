@@ -1,7 +1,11 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords } from './db'
 import { uri_key } from './keys';
+
+
+
 
 // const session = require('express-session'); 
 import session, { Session } from 'express-session';
@@ -13,7 +17,10 @@ app.use(
         secret: uri_key,
         resave: false,
         saveUninitialized: true
-    })
+    }),
+    cors({
+        origin: 'http://localhost:19006'  // replace with your actual origin
+      })
 )
 
 app.get('/', (req: Request, res: Response) => {
