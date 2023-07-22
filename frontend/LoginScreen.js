@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text, TextInput } from 'react-nativ
 import axios from 'axios';
 
 
-export default function LoginScreen({ handleBackPress, StackNavigator }) {
+export default function LoginScreen({ handleBackPress, handleSignUpPress }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,6 +17,7 @@ export default function LoginScreen({ handleBackPress, StackNavigator }) {
 
       if (response.data.Message === 'Login successful!') {
         // Do something on successful login (e.g. navigate to another screen)
+        handleSignUpPress();
         <Text>Login Sussessful!</Text>
 
       }
