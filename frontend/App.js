@@ -2,23 +2,48 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import SignUpScreen from './SignUpScreen';
 import LoginScreen from './LoginScreen';
+import CreateScreen from './CreateScreen'; // Import the CreateScreen component
+import Todoscreen from './Todoscreen';
 
 export default function App() {
   const [redirectToSignUp, setRedirectToSignUp] = useState(false);
   const [redirectToLogin, setRedirectToLogin] = useState(false);
+  const [redirectToCreate, setRedirectToCreate] = useState(false); // Add state for CreateScreen redirection
+  const [redirectTodo, setRedirectTodo] = useState(false); // Add state for CreateScreen redirection
 
   const handleSignUpPress = () => {
     setRedirectToSignUp(true);
     setRedirectToLogin(false);
+    setRedirectToCreate(false); // Make sure CreateScreen redirection is disabled
+    setRedirectTodo(false);
   };
 
   const handleLoginPress = () => {
+    setRedirectToSignUp(false); // Make sure SignUpScreen redirection is disabled
     setRedirectToLogin(true);
+    setRedirectToCreate(false); // Make sure CreateScreen redirection is disabled
+    setRedirectTodo(false);
+  };
+
+  const handleCreatePress = () => {
+    setRedirectToSignUp(false); // Make sure SignUpScreen redirection is disabled
+    setRedirectToLogin(false); // Make sure LoginScreen redirection is disabled
+    setRedirectToCreate(true);
+    setRedirectTodo(false);
+  };
+
+  const handleTodoPress = () => {
+    setRedirectToSignUp(false); // Make sure SignUpScreen redirection is disabled
+    setRedirectToLogin(false); // Make sure LoginScreen redirection is disabled
+    setRedirectToCreate(false);
+    setRedirectTodo(true);
   };
 
   const handleBackPress = () => {
     setRedirectToSignUp(false);
     setRedirectToLogin(false);
+    setRedirectToCreate(false);
+    setRedirectTodo(false);
   };
 
   if (redirectToSignUp) {
@@ -29,11 +54,17 @@ export default function App() {
     return <LoginScreen handleBackPress={handleBackPress} />;
   }
 
+  if (redirectToCreate) {
+    return <CreateScreen handleBackPress={handleBackPress} />;
+  }
+  if (redirectTodo) {
+    return <Todoscreen handleBackPress={handleBackPress} />;
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome to</Text>
       <Text style={styles.title}>TaskHUB</Text>
-
       <Text style={styles.description}>The App that reminds you.</Text>
       <Text></Text>
       <Text></Text>
@@ -44,14 +75,26 @@ export default function App() {
           <Text>Create an Account</Text>
         </TouchableOpacity>
         <Text></Text>
-       <Text></Text>
+        <Text></Text>
         <Text></Text>
         <Text style={styles.centerp}>           Login Here!</Text>
         <TouchableOpacity style={styles.button} onPress={handleLoginPress}>
           <Text>Login</Text>
         </TouchableOpacity>
- <Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text><Text></Text>
-      <Text>Brought to you by Group 19.</Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <TouchableOpacity style={styles.button} onPress={handleCreatePress}>
+          <Text>Create</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleTodoPress}>
+          <Text>todo</Text>
+        </TouchableOpacity>
+        <Text></Text><Text></Text>
+        <Text></Text><Text></Text>
+        <Text></Text><Text></Text>
+        <Text></Text><Text></Text>
+        <Text>Brought to you by Group 19.</Text>
       </View>
     </View>
   );
