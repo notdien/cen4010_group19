@@ -32,7 +32,7 @@ interface item {
 
 }
 
-// ping();
+ ping();
 
 // basic commands - add, delete, update and read users
 // add a new to do
@@ -56,6 +56,7 @@ export const addToDo = async function(creationData: item) {
     }
 }
 
+//test post method for adding a new task to the database
 // const new_do: item = {
 //     name: "Water my plants",
 //     description: "My plants are dying",
@@ -92,7 +93,7 @@ export const deleteItem = async function(name: object) {
 // this is a wrong name to test - enter a correct name to make sure it deletes
 // deleteItem({"name": "Fight a bear!"});
 
-// updates a item
+// updates an item
 export const updateItem = async function(name: object, updateData: object) {
     try {
 
