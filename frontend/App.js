@@ -9,6 +9,7 @@ export default function App() {
 
   const handleSignUpPress = () => {
     setRedirectToSignUp(true);
+    setRedirectToLogin(false);
   };
 
   const handleLoginPress = () => {
