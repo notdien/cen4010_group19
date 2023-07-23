@@ -8,7 +8,7 @@ export default function SignUpScreen({ handleBackPress }) {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('/signup', {
+      const response = await axios.post('http://localhost:5678/signup', {
         username,
         password,
       });
@@ -26,18 +26,20 @@ export default function SignUpScreen({ handleBackPress }) {
       <Text style={styles.welcome}>Let's get you signed up!</Text>
       <TextInput
         style={styles.input}
-        placeholder="Username"
+        onChangeText={(text) => setUsername(text)}
         value={username}
-        onChangeText={setUsername}
+        placeholder="Username"
+        autoCompleteType="username"
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        onChangeText={(text) => setPassword(text)}
         value={password}
-        onChangeText={setPassword}
+        placeholder="Password"
         secureTextEntry
+        autoCompleteType="password"
       />
-      <TouchableOpacity style={styles.signupButton} onPress={handleSignUp}>
+      <TouchableOpacity style={styles.backButton} onPress={handleSignUp}>
         <Text>Sign Up</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.backButton} onPress={handleBackPress}>
@@ -87,6 +89,14 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     backgroundColor: '#ccc',
     borderRadius: 5,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    padding: 10,
+    marginBottom: 10,
+    width: '100%', // make sure the text input stretches the full width of the container
   },
 });
 

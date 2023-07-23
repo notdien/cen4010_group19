@@ -17,7 +17,8 @@ export default function LoginScreen({ handleBackPress, handleSignUpPress }) {
 
       if (response.data.Message === 'Login successful!') {
         // Do something on successful login (e.g. navigate to another screen)
-        handleSignUpPress();
+        //this is weird because I can call the handleBackPress function which will return the user to the home screen after signing a user in but I cannot get a different redirect to happen.
+        //handleBackPress();
         <Text>Login Sussessful!</Text>
 
       }
