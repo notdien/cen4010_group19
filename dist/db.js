@@ -31,7 +31,6 @@ const ping = function () {
         }
     });
 };
-ping();
 // basic commands - add, delete, update and read users
 // add a new to do
 const addToDo = function (creationData) {
