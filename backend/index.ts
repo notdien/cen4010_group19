@@ -5,8 +5,6 @@ import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsernam
 import { uri_key } from './keys';
 
 
-
-
 // const session = require('express-session'); 
 import session, { Session } from 'express-session';
 const app: Express = express();
@@ -125,6 +123,22 @@ app.post('/login', async (req: Request, res: Response) => {
     req.session.user = existingUser._id;
     res.json({ Message: 'Login successful!' });
 
+})
+
+// log out
+// does not need database connection
+// the express-session middleware handles the session data management
+app.post('/logout', async (req: Request, res: Response) => {
+    // destroys the user's session to log them out
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error destorying session:', err);
+            return res.status(500).json({ Message: 'An error has occured while attempting to log out...' });
+        }
+
+        // if no errors - log out the user
+        res.json({ Message: 'Logout successful!' });
+    })
 })
 
 app.listen(5678);

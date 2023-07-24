@@ -22,7 +22,7 @@ We plan to create the IOS app using React-Native, ExpressJS - Typescript and Mon
 
 ### CD into frontend folder.
 
-### Run the "NPM install" commman in terminal.
+### Run the "NPM install" commmand in terminal.
 
 ### Type in "npx expo start --tunnel" to start up application without error using Expo Go. It may ask to download additional items, so type yes if it does. 
 

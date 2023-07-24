@@ -23,6 +23,7 @@ const ping = async function() {
     }
 }
 
+// ping();
 
 // interfaces are prototyping for a object
 interface item {
@@ -31,8 +32,6 @@ interface item {
     creation_date: string
 
 }
-
- ping();
 
 // basic commands - add, delete, update and read users
 // add a new to do

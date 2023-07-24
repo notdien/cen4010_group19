@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// different pages
 import SignUpScreen from './SignUpScreen';
 import LoginScreen from './LoginScreen';
 import CreateScreen from './CreateScreen'; // Import the CreateScreen component
 import Todoscreen from './Todoscreen';
+
+// const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [redirectToSignUp, setRedirectToSignUp] = useState(false);
@@ -61,7 +68,9 @@ export default function App() {
     return <Todoscreen handleBackPress={handleBackPress} />;
   }
 
+
   return (
+    <React.Fragment>
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome to</Text>
       <Text style={styles.title}>TaskHUB</Text>
@@ -88,7 +97,7 @@ export default function App() {
           <Text>Create</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleTodoPress}>
-          <Text>todo</Text>
+          <Text>Todo</Text>
         </TouchableOpacity>
         <Text></Text><Text></Text>
         <Text></Text><Text></Text>
@@ -97,6 +106,16 @@ export default function App() {
         <Text>Brought to you by Group 19.</Text>
       </View>
     </View>
+
+    {/* <NavigationContainer>
+      <Stack.Navigator initialRouteName='Todoscreen'>
+        <Stack.Screen name ="CreateScreen" component={CreateScreen} />
+        <Stack.Screen name ="Todoscreen" component={Todoscreen} />
+      </Stack.Navigator>
+    </NavigationContainer> */}
+
+    </React.Fragment>
+    
   );
 }
 
