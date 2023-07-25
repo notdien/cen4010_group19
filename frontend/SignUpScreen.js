@@ -14,6 +14,8 @@ export default function SignUpScreen({ handleBackPress }) {
       });
       console.log(response.data);
       // Do something with the response if needed
+      window.location.href = "Todoscreen";
+      
     } catch (error) {
       console.error(error);
       // Handle the error if needed
