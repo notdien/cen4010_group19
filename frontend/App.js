@@ -10,7 +10,6 @@ import LoginScreen from './LoginScreen';
 import CreateScreen from './CreateScreen'; // Import the CreateScreen component
 import Todoscreen from './Todoscreen';
 
-// const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [redirectToSignUp, setRedirectToSignUp] = useState(false);
@@ -68,7 +67,6 @@ export default function App() {
     return <Todoscreen handleBackPress={handleBackPress} />;
   }
 
-
   return (
     <React.Fragment>
     <View style={styles.container}>
@@ -108,8 +106,8 @@ export default function App() {
     </View>
 
     {/* <NavigationContainer>
-      <Stack.Navigator initialRouteName='Todoscreen'>
-        <Stack.Screen name ="CreateScreen" component={CreateScreen} />
+      <Stack.Navigator initialRouteName='SignUpScreen'>
+        <Stack.Screen name ="SignupScreen" component={SignUpScreen} />
         <Stack.Screen name ="Todoscreen" component={Todoscreen} />
       </Stack.Navigator>
     </NavigationContainer> */}

@@ -20,7 +20,8 @@ export default function LoginScreen({ handleBackPress, handleSignUpPress }) {
         //this is weird because I can call the handleBackPress function which will return the user to the home screen after signing a user in but I cannot get a different redirect to happen.
         //handleBackPress();
         <Text>Login Sussessful!</Text>
-
+        console.log("Successful login!")
+        window.location.href = "Todoscreen";
       }
     } catch (error) {
       if (error.response) {
