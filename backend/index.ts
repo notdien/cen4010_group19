@@ -18,6 +18,7 @@ app.use(
     }),
     cors({
         origin: 'http://localhost:19006'  // replace with your actual origin
+        // origin: 'http://localhost:5000'
       })
 )
 
@@ -141,5 +142,9 @@ app.post('/logout', async (req: Request, res: Response) => {
     })
 })
 
-app.listen(5678);
-console.log("Server is running...");
+// app.listen(5678);
+// console.log("Server is running...");
+const port = 5678;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
+})

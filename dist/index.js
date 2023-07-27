@@ -26,6 +26,7 @@ app.use((0, express_session_1.default)({
     saveUninitialized: true
 }), (0, cors_1.default)({
     origin: 'http://localhost:19006' // replace with your actual origin
+    // origin: 'http://localhost:5000'
 }));
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
@@ -105,5 +106,9 @@ app.post('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ Message: 'Logout successful!' });
     });
 }));
-app.listen(5678);
-console.log("Server is running...");
+// app.listen(5678);
+// console.log("Server is running...");
+const port = 5678;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
