@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, View, Text, TextInput } from "react-native";
+import { StyleSheet, Button, View, Text, TextInput,TouchableOpacity  } from "react-native";
+import styles from './styles';
 import axios from 'axios';
 
 export default function Signup( {navigation} ) {
@@ -24,27 +25,31 @@ export default function Signup( {navigation} ) {
     };
 
     return (
-        <View style ={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Text>Let's get you signed up!</Text>
+        <View style ={styles.container}>
+            <Text style={styles.welcome2}>Let's get you signed up!</Text>
             <TextInput
                 id = "username"
                 onChangeText={(text) => setUsername(text)}
                 value={username}
-                placeholder="Enter New Username"
+                placeholder="             Enter New Username"
                 autoCompleteType="username"
+                style={styles.textInput}
             />
             <TextInput
                 id = "password"
                 onChangeText={(text) => setPassword(text)}
                 value={password}
-                placeholder="Enter New Password"
+                placeholder="             Enter New Password"
                 autoCompleteType="password"
+                style={styles.textInput}
             />
-            <Button title="New User" onPress={handleSignup} />
-            <Button
-                title="Back to Welcome"
-                onPress={() => navigation.navigate("Welcome")}
-            />
+            <TouchableOpacity onPress={handleSignup} style={styles.button}>
+            <Text style={styles.button2}>CREATE NEW USER!</Text>
+            </TouchableOpacity>
+            <Text style={styles.return}>Want tot return?</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Welcome")} style={styles.button}>
+            <Text style={styles.button2}>BACK TO WELCOME</Text>
+            </TouchableOpacity>
         </View>
     )
 }
