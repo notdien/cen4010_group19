@@ -46,7 +46,7 @@ export default function Signup( {navigation} ) {
             <TouchableOpacity onPress={handleSignup} style={styles.button}>
             <Text style={styles.button2}>CREATE NEW USER!</Text>
             </TouchableOpacity>
-            <Text style={styles.return}>Want tot return?</Text>
+            <Text style={styles.return}>Want to return?</Text>
             <TouchableOpacity onPress={() => navigation.navigate("Welcome")} style={styles.button}>
             <Text style={styles.button2}>BACK TO WELCOME</Text>
             </TouchableOpacity>
