@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
+exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
 const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
@@ -31,6 +31,7 @@ const ping = function () {
         }
     });
 };
+// ping();
 // basic commands - add, delete, update and read users
 // add a new to do
 const addToDo = function (creationData) {
@@ -149,21 +150,20 @@ const getList = function () {
     });
 };
 exports.getList = getList;
-// getList();
-// user login
-// creates a new users
-const createUser = function (username, password) {
+const createUser = function (new_user) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield client.connect();
             const myDB = yield client.db('To_do_list');
             const myCollection = myDB.collection('Users');
+            const { username, password, to_dos } = new_user;
             const hashedPassword = yield bcrypt.hash(password, 10);
-            const user = {
+            const hashedUser = {
                 username,
-                password: hashedPassword
+                password: hashedPassword,
+                to_dos
             };
-            const results = yield myCollection.insertOne(user);
+            const results = yield myCollection.insertOne(hashedUser);
             console.log("Created new user successfully!");
         }
         catch (error) {
@@ -178,7 +178,12 @@ const createUser = function (username, password) {
     });
 };
 exports.createUser = createUser;
-// createUser(("Sean"), ("54321"));
+// const new_u: newUser = {
+//     username: "Jason",
+//     password: "12345",
+//     to_dos: []
+// }
+// createUser(new_u)
 // finds users by name
 const findUserByUsername = function (username) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -210,3 +215,31 @@ const comparePasswords = function (password, hashedPassword) {
     });
 };
 exports.comparePasswords = comparePasswords;
+// re-doing method for adding to-do's
+const add_Todo = function (username, newItem) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const myDB = yield client.db('To_do_list');
+            const myCollection = myDB.collection('Users');
+            yield myCollection.updateOne({ username }, { $push: { to_dos: newItem } });
+            console.log(`Inserted new to-do`);
+        }
+        catch (error) {
+            if (error instanceof MongoServerError) {
+                console.log(`Error $(error)`);
+            }
+            throw error;
+        }
+        finally {
+            yield client.close();
+        }
+    });
+};
+exports.add_Todo = add_Todo;
+// const new_Item: item = {
+//     name: "Water the plants",
+//     description: "My plants are dying",
+//     creation_date: "7/28/2023"
+// }
+// add_Todo("Jack", new_Item)

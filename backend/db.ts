@@ -25,14 +25,6 @@ const ping = async function() {
 
 // ping();
 
-// interfaces are prototyping for a object
-interface item {
-    name: string,
-    description: string,
-    creation_date: string
-
-}
-
 // basic commands - add, delete, update and read users
 // add a new to do
 export const addToDo = async function(creationData: item) {
@@ -157,21 +149,31 @@ export const getList = async function() {
 
 // user login
 // creates a new users
-export const createUser = async function(username: string, password: string) {
+
+interface newUser {
+    username: string,
+    password: string,
+    to_dos: Array<string>
+}
+
+export const createUser = async function(new_user: newUser) {
     try {
         await client.connect();
 
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('Users');
 
+        const {username, password, to_dos} = new_user
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = {
+        const hashedUser = {
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            to_dos
         }
 
-        const results = await myCollection.insertOne(user);
+        const results = await myCollection.insertOne(hashedUser);
         console.log("Created new user successfully!");
     } catch (error) {
         if(error instanceof MongoServerError) {
@@ -183,7 +185,13 @@ export const createUser = async function(username: string, password: string) {
     }
 }
 
-// createUser(("Sean"), ("54321"));
+// const new_u: newUser = {
+//     username: "Jason",
+//     password: "12345",
+//     to_dos: []
+// }
+
+// createUser(new_u)
 
 // finds users by name
 export const findUserByUsername = async function(username: string) {
@@ -212,3 +220,37 @@ export const findUserByUsername = async function(username: string) {
 export const comparePasswords = async function(password: string, hashedPassword: string) {
     return bcrypt.compare(password, hashedPassword);
 }
+
+interface item {
+    name: string,
+    description: string,
+    creation_date: string
+}
+
+// re-doing method for adding to-do's
+export const add_Todo = async function(username: string, newItem: item) {
+    try {
+        await client.connect()
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users');
+
+        await myCollection.updateOne({username}, {$push: {to_dos: newItem}})
+        console.log(`Inserted new to-do`)
+    }catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    }finally {
+        await client.close();
+    }
+}
+
+// const new_Item: item = {
+//     name: "Water the plants",
+//     description: "My plants are dying",
+//     creation_date: "7/28/2023"
+// }
+
+// add_Todo("Jack", new_Item)

@@ -1,7 +1,7 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords } from './db'
+import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords, add_Todo } from './db'
 import { uri_key } from './keys';
 
 
@@ -28,12 +28,6 @@ app.get('/', (req: Request, res: Response) => {
 
 // basic commands
 
-// creates a new to-do and adds to the DB
-interface new_todo {
-    name: string;
-    description: string;
-    creation_date: string;
-}
 app.post('/create', async (req: Request, res: Response) => {
     const { name, description, creation_date } = req.body;
 
@@ -87,6 +81,7 @@ app.put('/to-do/:name', async (req: Request, res: Response) => {
 app.post('/signup', async (req: Request, res: Response) => {
 
     const { username, password } = req.body
+    const to_dos = []
     
     // if it exists - doesn't create user
      const existingUser = await findUserByUsername(username);
@@ -94,7 +89,13 @@ app.post('/signup', async (req: Request, res: Response) => {
         return res.status(400).json({ Message: 'Username already exists!', existingUser })
      }
 
-     const newUser = await createUser(username, password)
+     const user = {
+        username,
+        password,
+        to_dos: []
+     }
+
+     const newUser = await createUser(user)
      res.status(201).json({ Message: 'New user created successfully!' })
 })
 
@@ -117,7 +118,7 @@ app.post('/login', async (req: Request, res: Response) => {
     // if the password is incorrect - no login
     const validPassword = await comparePasswords(password, existingUser.password);
     if (!validPassword) {
-        return res.status(401).json({ Message: "Password is incorrect, please check your username/password again "});
+        return res.status(401).json({ Message: "Password is incorrect, please check your username/password again"});
     }
 
     // other wise - login
@@ -140,6 +141,30 @@ app.post('/logout', async (req: Request, res: Response) => {
         // if no errors - log out the user
         res.json({ Message: 'Logout successful!' });
     })
+})
+
+// re-doing the adding methods
+
+interface new_todo {
+    name: string;
+    description: string;
+    creation_date: string;
+}
+
+app.post('/to_dos/:username', async (req: Request, res: Response) => {
+    var username = req.params.username;
+
+    const { name, description, creation_date } = req.body;
+
+    const todo: new_todo = {
+        name,
+        description,
+        creation_date
+    }
+
+    add_Todo(username, todo);
+    return res.status(201).json({Success: "Created new To-do Successfully! Added", todo});
+
 })
 
 // app.listen(5678);
