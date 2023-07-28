@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
+exports.get_Todo = exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
 const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
@@ -243,3 +243,39 @@ exports.add_Todo = add_Todo;
 //     creation_date: "7/28/2023"
 // }
 // add_Todo("Jack", new_Item)
+// method for only using the user's to-dos - find by using username
+const get_Todo = function (username) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const myDB = yield client.db('To_do_list');
+            const myCollection = myDB.collection('Users');
+            const pipeline = [
+                { $match: { username } },
+                { $project: { _id: 0, to_dos: 1 } },
+            ];
+            const cursor = myCollection.aggregate(pipeline);
+            const result = yield cursor.toArray();
+            if (result.length === 0) {
+                console.log("No list is associated with that username...");
+                return "No list is associated with that username...";
+            }
+            else {
+                const doArray = result[0].to_dos;
+                console.log(doArray);
+                return doArray;
+            }
+        }
+        catch (error) {
+            if (error instanceof MongoServerError) {
+                console.log(`Error $(error)`);
+            }
+            throw error;
+        }
+        finally {
+            yield client.close();
+        }
+    });
+};
+exports.get_Todo = get_Todo;
+// get_Todo("Jack");

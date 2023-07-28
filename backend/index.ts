@@ -1,7 +1,7 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords, add_Todo } from './db'
+import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords, add_Todo, get_Todo } from './db'
 import { uri_key } from './keys';
 
 
@@ -53,7 +53,6 @@ app.delete('/to-do/:name', async (req: Request, res: Response) => {
 app.get('/to-do', async (req: Request, res: Response) => {
     var results = await getList();
     return res.status(200).send(results);
-
 })
 
 interface new_changes {
@@ -144,7 +143,6 @@ app.post('/logout', async (req: Request, res: Response) => {
 })
 
 // re-doing the adding methods
-
 interface new_todo {
     name: string;
     description: string;
@@ -165,6 +163,14 @@ app.post('/to_dos/:username', async (req: Request, res: Response) => {
     add_Todo(username, todo);
     return res.status(201).json({Success: "Created new To-do Successfully! Added", todo});
 
+})
+
+// seeing just the user to dos
+app.get('/to_dos/:username', async (req: Request, res: Response) => {
+    var username = req.params.username;
+
+    var results = await get_Todo(username);
+    return res.status(200).send(results);
 })
 
 // app.listen(5678);

@@ -124,6 +124,12 @@ app.post('/to_dos/:username', (req, res) => __awaiter(void 0, void 0, void 0, fu
     (0, db_1.add_Todo)(username, todo);
     return res.status(201).json({ Success: "Created new To-do Successfully! Added", todo });
 }));
+// seeing just the user to dos
+app.get('/to_dos/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    var results = yield (0, db_1.get_Todo)(username);
+    return res.status(200).send(results);
+}));
 // app.listen(5678);
 // console.log("Server is running...");
 const port = 5678;

@@ -230,7 +230,7 @@ interface item {
 // re-doing method for adding to-do's
 export const add_Todo = async function(username: string, newItem: item) {
     try {
-        await client.connect()
+        await client.connect();
 
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('Users');
@@ -254,3 +254,40 @@ export const add_Todo = async function(username: string, newItem: item) {
 // }
 
 // add_Todo("Jack", new_Item)
+
+// method for only using the user's to-dos - find by using username
+export const get_Todo = async function(username: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users')
+
+        const pipeline = [
+            {$match: {username}},
+            {$project : {_id: 0, to_dos: 1}},
+        ]
+
+        const cursor = myCollection.aggregate(pipeline);
+        const result = await cursor.toArray();
+
+        if (result.length === 0) {
+            console.log("No list is associated with that username...")
+            return "No list is associated with that username...";
+        }
+        else {
+            const doArray: string[] = result[0].to_dos;
+            console.log(doArray);
+            return doArray;
+        }
+    } catch( error ) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    }finally {
+        await client.close();
+    }
+}
+
+// get_Todo("Jack");
