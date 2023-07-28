@@ -31,6 +31,7 @@ app.use((0, express_session_1.default)({
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
+// basic commands
 app.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, description, creation_date } = req.body;
     const newTodo = {
@@ -67,12 +68,18 @@ app.put('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function
 // this signs up a user 
 app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
+    const to_dos = [];
     // if it exists - doesn't create user
     const existingUser = yield (0, db_1.findUserByUsername)(username);
     if (existingUser) {
         return res.status(400).json({ Message: 'Username already exists!', existingUser });
     }
-    const newUser = yield (0, db_1.createUser)(username, password);
+    const user = {
+        username,
+        password,
+        to_dos: []
+    };
+    const newUser = yield (0, db_1.createUser)(user);
     res.status(201).json({ Message: 'New user created successfully!' });
 }));
 // user login
@@ -86,7 +93,7 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     // if the password is incorrect - no login
     const validPassword = yield (0, db_1.comparePasswords)(password, existingUser.password);
     if (!validPassword) {
-        return res.status(401).json({ Message: "Password is incorrect, please check your username/password again " });
+        return res.status(401).json({ Message: "Password is incorrect, please check your username/password again" });
     }
     // other wise - login
     req.session.user = existingUser._id;
@@ -105,6 +112,30 @@ app.post('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         // if no errors - log out the user
         res.json({ Message: 'Logout successful!' });
     });
+}));
+app.post('/create/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    const { name, description, creation_date } = req.body;
+    const todo = {
+        name,
+        description,
+        creation_date
+    };
+    (0, db_1.add_Todo)(username, todo);
+    return res.status(201).json({ Success: "Created new To-do Successfully! Added", todo });
+}));
+// seeing just the user to dos
+app.get('/read/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    var results = yield (0, db_1.get_Todo)(username);
+    return res.status(200).send(results);
+}));
+// delete a to-do
+app.post('/delete/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    const { name } = req.body;
+    (0, db_1.delete_Todo)(username, name);
+    return res.status(201).json({ Success: "Delete that to-do!" });
 }));
 // app.listen(5678);
 // console.log("Server is running...");

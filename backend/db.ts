@@ -25,14 +25,6 @@ const ping = async function() {
 
 // ping();
 
-// interfaces are prototyping for a object
-interface item {
-    name: string,
-    description: string,
-    creation_date: string
-
-}
-
 // basic commands - add, delete, update and read users
 // add a new to do
 export const addToDo = async function(creationData: item) {
@@ -157,21 +149,31 @@ export const getList = async function() {
 
 // user login
 // creates a new users
-export const createUser = async function(username: string, password: string) {
+
+interface newUser {
+    username: string,
+    password: string,
+    to_dos: Array<string>
+}
+
+export const createUser = async function(new_user: newUser) {
     try {
         await client.connect();
 
         const myDB = await client.db('To_do_list');
         const myCollection = myDB.collection('Users');
 
+        const {username, password, to_dos} = new_user
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        const user = {
+        const hashedUser = {
             username,
-            password: hashedPassword
+            password: hashedPassword,
+            to_dos
         }
 
-        const results = await myCollection.insertOne(user);
+        const results = await myCollection.insertOne(hashedUser);
         console.log("Created new user successfully!");
     } catch (error) {
         if(error instanceof MongoServerError) {
@@ -183,7 +185,13 @@ export const createUser = async function(username: string, password: string) {
     }
 }
 
-// createUser(("Sean"), ("54321"));
+// const new_u: newUser = {
+//     username: "Jason",
+//     password: "12345",
+//     to_dos: []
+// }
+
+// createUser(new_u)
 
 // finds users by name
 export const findUserByUsername = async function(username: string) {
@@ -212,3 +220,96 @@ export const findUserByUsername = async function(username: string) {
 export const comparePasswords = async function(password: string, hashedPassword: string) {
     return bcrypt.compare(password, hashedPassword);
 }
+
+interface item {
+    name: string,
+    description: string,
+    creation_date: string
+}
+
+// re-doing method for adding to-do's
+export const add_Todo = async function(username: string, newItem: item) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users');
+
+        await myCollection.updateOne({username}, {$push: {to_dos: newItem}})
+        console.log(`Inserted new to-do`)
+    }catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    }finally {
+        await client.close();
+    }
+}
+
+// const new_Item: item = {
+//     name: "Water the plants",
+//     description: "My plants are dying",
+//     creation_date: "7/28/2023"
+// }
+
+// add_Todo("Jack", new_Item)
+
+// method for only using the user's to-dos - find by using username
+export const get_Todo = async function(username: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users')
+
+        const pipeline = [
+            {$match: {username}},
+            {$project : {_id: 0, to_dos: 1}},
+        ]
+
+        const cursor = myCollection.aggregate(pipeline);
+        const result = await cursor.toArray();
+
+        if (result.length === 0) {
+            console.log("No list is associated with that username...")
+            return "No list is associated with that username...";
+        }
+        else {
+            const doArray: string[] = result[0].to_dos;
+            console.log(doArray);
+            return doArray;
+        }
+    } catch( error ) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    }finally {
+        await client.close();
+    }
+}
+
+// get_Todo("Jack");
+
+// delete a to-do
+export const delete_Todo = async function(username: string, toDo: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users')
+
+        await myCollection.updateOne({username}, {$pull: {to_dos: {name: toDo} } })
+        console.log("Removed that to-do!");
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+// delete_Todo("Jeff", "Breathe");
