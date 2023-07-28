@@ -113,7 +113,7 @@ app.post('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ Message: 'Logout successful!' });
     });
 }));
-app.post('/to_dos/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/create/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var username = req.params.username;
     const { name, description, creation_date } = req.body;
     const todo = {
@@ -125,10 +125,17 @@ app.post('/to_dos/:username', (req, res) => __awaiter(void 0, void 0, void 0, fu
     return res.status(201).json({ Success: "Created new To-do Successfully! Added", todo });
 }));
 // seeing just the user to dos
-app.get('/to_dos/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/read/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var username = req.params.username;
     var results = yield (0, db_1.get_Todo)(username);
     return res.status(200).send(results);
+}));
+// delete a to-do
+app.post('/delete/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    const { name } = req.body;
+    (0, db_1.delete_Todo)(username, name);
+    return res.status(201).json({ Success: "Delete that to-do!" });
 }));
 // app.listen(5678);
 // console.log("Server is running...");

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get_Todo = exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
+exports.delete_Todo = exports.get_Todo = exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
 const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
@@ -279,3 +279,26 @@ const get_Todo = function (username) {
 };
 exports.get_Todo = get_Todo;
 // get_Todo("Jack");
+// delete a to-do
+const delete_Todo = function (username, toDo) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield client.connect();
+            const myDB = yield client.db('To_do_list');
+            const myCollection = myDB.collection('Users');
+            yield myCollection.updateOne({ username }, { $pull: { to_dos: { name: toDo } } });
+            console.log("Removed that to-do!");
+        }
+        catch (error) {
+            if (error instanceof MongoServerError) {
+                console.log(`Error $(error)`);
+            }
+            throw error;
+        }
+        finally {
+            yield client.close();
+        }
+    });
+};
+exports.delete_Todo = delete_Todo;
+// delete_Todo("Jeff", "Breathe");

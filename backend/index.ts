@@ -1,7 +1,7 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords, add_Todo, get_Todo } from './db'
+import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords, add_Todo, get_Todo, delete_Todo } from './db'
 import { uri_key } from './keys';
 
 
@@ -149,7 +149,7 @@ interface new_todo {
     creation_date: string;
 }
 
-app.post('/to_dos/:username', async (req: Request, res: Response) => {
+app.post('/create/:username', async (req: Request, res: Response) => {
     var username = req.params.username;
 
     const { name, description, creation_date } = req.body;
@@ -166,11 +166,21 @@ app.post('/to_dos/:username', async (req: Request, res: Response) => {
 })
 
 // seeing just the user to dos
-app.get('/to_dos/:username', async (req: Request, res: Response) => {
+app.get('/read/:username', async (req: Request, res: Response) => {
     var username = req.params.username;
 
     var results = await get_Todo(username);
     return res.status(200).send(results);
+})
+
+// delete a to-do
+app.post('/delete/:username', async (req: Request, res: Response) => {
+    var username = req.params.username;
+
+    const {name} = req.body;
+
+    delete_Todo(username, name)
+    return res.status(201).json({Success: "Delete that to-do!"})
 })
 
 // app.listen(5678);

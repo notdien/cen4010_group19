@@ -291,3 +291,25 @@ export const get_Todo = async function(username: string) {
 }
 
 // get_Todo("Jack");
+
+// delete a to-do
+export const delete_Todo = async function(username: string, toDo: string) {
+    try {
+        await client.connect();
+
+        const myDB = await client.db('To_do_list');
+        const myCollection = myDB.collection('Users')
+
+        await myCollection.updateOne({username}, {$pull: {to_dos: {name: toDo} } })
+        console.log("Removed that to-do!");
+    } catch (error) {
+        if(error instanceof MongoServerError) {
+            console.log(`Error $(error)`);
+        }
+        throw error;
+    } finally {
+        await client.close();
+    }
+}
+
+// delete_Todo("Jeff", "Breathe");
