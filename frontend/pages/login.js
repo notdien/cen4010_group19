@@ -19,7 +19,7 @@ export default function Login({navigation} ) {
             if (response.data.Message === 'Login successful!') {
                 <Text>Login Successful!</Text>
                 console.log("Successful login!")
-                navigation.navigate("Home")
+                navigation.navigate('Home', { username });
             }
         }
         catch (error) {

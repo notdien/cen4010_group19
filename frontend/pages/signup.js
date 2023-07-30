@@ -17,7 +17,7 @@ export default function Signup( {navigation} ) {
             });
             console.log(response.data);
 
-            navigation.navigate("Home")
+            navigation.navigate('Home', { username });
         }
         catch (error) {
             console.log(error);
