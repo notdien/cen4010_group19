@@ -10,7 +10,6 @@ import Login from './pages/login';
 import Home from './pages/home';
 import Signup from './pages/signup';
 import Create from './pages/create';
-import Update from './pages/update';
 
 // function WelcomeScreen() {
 //   return (
@@ -42,7 +41,6 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Create" component={Create} />
-        <Stack.Screen name="Update" component={Update} />
       </Stack.Navigator>
     </NavigationContainer>
   )

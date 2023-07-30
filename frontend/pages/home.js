@@ -80,9 +80,6 @@ export default function Home({ route, navigation }) {
           <TouchableOpacity onPress={() => navigation.navigate('Create', { username })}>
         <Text style={styles.button2}>Create</Text>
       </TouchableOpacity>
-          <TouchableOpacity onPress={handleUpdate}>
-            <Text style={styles.button2}>Update</Text>
-          </TouchableOpacity>
           <TouchableOpacity onPress={handleDelete}>
             <Text style={styles.button2}>Delete</Text>
           </TouchableOpacity>
