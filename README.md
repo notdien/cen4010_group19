@@ -24,6 +24,6 @@ We plan to create the IOS app using React-Native, ExpressJS - Typescript and Mon
 
 ### Run the "NPM install" commmand in terminal.
 
-### Type in "npx expo start --tunnel" to start up application without error using Expo Go. It may ask to download additional items, so type yes if it does. 
+### Type in "npm run start" or "npx expo start --tunnel"   to start up application without error using Expo Go. It may ask to download additional items, so type yes if it does. 
 
-### A QR Code is given. Scan QR code with regular camera. A redirect will be sent to Expo Go. And you should be good to go
+### Press W for web base app redirect or use the given QR Code given. Scan QR code with regular camera. A redirect will be sent to Expo Go. And you should be good to go

@@ -26,52 +26,33 @@ app.use((0, express_session_1.default)({
     saveUninitialized: true
 }), (0, cors_1.default)({
     origin: 'http://localhost:19006' // replace with your actual origin
+    // origin: 'http://localhost:5000'
 }));
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
-app.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, description, creation_date } = req.body;
-    const newTodo = {
-        name,
-        description,
-        creation_date
-    };
-    (0, db_1.addToDo)(newTodo);
-    return res.status(201).json({ Success: "Created new To-do Successfully!", newTodo });
-}));
-// deletes a to-do from the DB
-app.delete('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var name = req.params.name;
-    var results = (0, db_1.deleteItem)({ name });
-    return res.status(200).send(results);
-}));
+// basic commands
 // gets all the to-dos
 app.get('/to-do', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var results = yield (0, db_1.getList)();
     return res.status(200).send(results);
 }));
-// updates a to-do's description and creation date
-app.put('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var name = req.params.name;
-    const { description, creation_date } = req.body;
-    const newChanges = {
-        description,
-        creation_date
-    };
-    (0, db_1.updateItem)({ name }, newChanges);
-    return res.status(200).send(newChanges);
-}));
 // user login
 // this signs up a user 
 app.post('/signup', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
+    const to_dos = [];
     // if it exists - doesn't create user
     const existingUser = yield (0, db_1.findUserByUsername)(username);
     if (existingUser) {
         return res.status(400).json({ Message: 'Username already exists!', existingUser });
     }
-    const newUser = yield (0, db_1.createUser)(username, password);
+    const user = {
+        username,
+        password,
+        to_dos: []
+    };
+    const newUser = yield (0, db_1.createUser)(user);
     res.status(201).json({ Message: 'New user created successfully!' });
 }));
 // user login
@@ -85,7 +66,7 @@ app.post('/login', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     // if the password is incorrect - no login
     const validPassword = yield (0, db_1.comparePasswords)(password, existingUser.password);
     if (!validPassword) {
-        return res.status(401).json({ Message: "Password is incorrect, please check your username/password again " });
+        return res.status(401).json({ Message: "Password is incorrect, please check your username/password again" });
     }
     // other wise - login
     req.session.user = existingUser._id;
@@ -105,5 +86,33 @@ app.post('/logout', (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.json({ Message: 'Logout successful!' });
     });
 }));
-app.listen(5678);
-console.log("Server is running...");
+app.post('/create/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    const { name, description, creation_date } = req.body;
+    const todo = {
+        name,
+        description,
+        creation_date
+    };
+    (0, db_1.add_Todo)(username, todo);
+    return res.status(201).json({ Success: "Created new To-do Successfully! Added", todo });
+}));
+// seeing just the user to dos
+app.get('/read/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    var results = yield (0, db_1.get_Todo)(username);
+    return res.status(200).send(results);
+}));
+// delete a to-do
+app.post('/delete/:username', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var username = req.params.username;
+    const { name } = req.body;
+    (0, db_1.delete_Todo)(username, name);
+    return res.status(201).json({ Success: "Delete that to-do!" });
+}));
+// app.listen(5678);
+// console.log("Server is running...");
+const port = 5678;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
