@@ -32,37 +32,10 @@ app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 // basic commands
-app.post('/create', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { name, description, creation_date } = req.body;
-    const newTodo = {
-        name,
-        description,
-        creation_date
-    };
-    (0, db_1.addToDo)(newTodo);
-    return res.status(201).json({ Success: "Created new To-do Successfully!", newTodo });
-}));
-// deletes a to-do from the DB
-app.delete('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var name = req.params.name;
-    var results = (0, db_1.deleteItem)({ name });
-    return res.status(200).send(results);
-}));
 // gets all the to-dos
 app.get('/to-do', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var results = yield (0, db_1.getList)();
     return res.status(200).send(results);
-}));
-// updates a to-do's description and creation date
-app.put('/to-do/:name', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var name = req.params.name;
-    const { description, creation_date } = req.body;
-    const newChanges = {
-        description,
-        creation_date
-    };
-    (0, db_1.updateItem)({ name }, newChanges);
-    return res.status(200).send(newChanges);
 }));
 // user login
 // this signs up a user 

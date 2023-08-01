@@ -1,7 +1,7 @@
 import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
-import { addToDo, deleteItem, updateItem, getList, createUser, findUserByUsername, comparePasswords, add_Todo, get_Todo, delete_Todo } from './db'
+import { getList, createUser, findUserByUsername, comparePasswords, add_Todo, get_Todo, delete_Todo } from './db'
 import { uri_key } from './keys';
 
 
@@ -28,27 +28,6 @@ app.get('/', (req: Request, res: Response) => {
 
 // basic commands
 
-app.post('/create', async (req: Request, res: Response) => {
-    const { name, description, creation_date } = req.body;
-
-    const newTodo: new_todo = {
-        name,
-        description,
-        creation_date
-    }
-
-    addToDo(newTodo)
-    return res.status(201).json({Success: "Created new To-do Successfully!", newTodo});
-});
-
-// deletes a to-do from the DB
-app.delete('/to-do/:name', async (req: Request, res: Response) => {
-    var name = req.params.name;
-
-    var results = deleteItem({name});
-    return res.status(200).send(results)
-})
-
 // gets all the to-dos
 app.get('/to-do', async (req: Request, res: Response) => {
     var results = await getList();
@@ -60,20 +39,7 @@ interface new_changes {
     creation_date: string
 }
 
-// updates a to-do's description and creation date
-app.put('/to-do/:name', async (req: Request, res: Response) => {
-    var name = req.params.name;
-    const { description, creation_date } = req.body;
 
-    const newChanges: new_changes = {
-        description,
-        creation_date
-    }
-
-    updateItem({name}, newChanges)
-    return res.status(200).send(newChanges);
-
-})
 
 // user login
 // this signs up a user 
@@ -142,7 +108,7 @@ app.post('/logout', async (req: Request, res: Response) => {
     })
 })
 
-// re-doing the adding methods
+//interface
 interface new_todo {
     name: string;
     description: string;
