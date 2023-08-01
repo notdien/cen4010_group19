@@ -20,6 +20,7 @@ export default function Home({ route, navigation }) {
 
       await axios.post(`http://localhost:5678/create/${username}`, newTodo);
       navigation.navigate('Home', { username }); // Redirect back to the homepage
+      console.log("Successful Creation!")
     } catch (error) {
       console.error('Error creating new to-do:', error);
     }
@@ -50,10 +51,6 @@ export default function Home({ route, navigation }) {
       <TouchableOpacity onPress={handleCreate}>
         <Text style={styles.button2}>Submit</Text>
       </TouchableOpacity>
-      <Text style={styles.return}>Want to return?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Welcome")} style={styles.button}>
-            <Text style={styles.button2}>BACK TO WELCOME</Text>
-            </TouchableOpacity>
     </View>
     </React.Fragment>
   );

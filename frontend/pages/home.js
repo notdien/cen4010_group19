@@ -30,6 +30,7 @@ export default function Home({ route, navigation }) {
         // Update the user data after deletion
         setUserData(userData.filter((todo) => todo.name !== selectedToDo.name));
         setSelectedToDo(null); // Clear the selected to-do item after deletion
+        console.log("Successful Deletion!")
       }
     } catch (error) {
       console.error('Error deleting to-do:', error);
@@ -46,6 +47,7 @@ export default function Home({ route, navigation }) {
     try {
       const response = await axios.get(`http://localhost:5678/read/${username}`);
       setUserData(response.data);
+      console.log("Successful Refresh!")
     } catch (error) {
       console.error('Error refreshing data:', error);
     }
@@ -77,21 +79,19 @@ export default function Home({ route, navigation }) {
           <Text>Selected To-Do:</Text>
           <Text>{selectedToDo.name} - {selectedToDo.description}</Text>
           <Text style={styles.return}>                   Task Options</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Create', { username })}>
-        <Text style={styles.button2}>Create</Text>
-      </TouchableOpacity>
+
           <TouchableOpacity onPress={handleDelete}>
             <Text style={styles.button2}>Delete</Text>
           </TouchableOpacity>
         </View>
       )}
+        <TouchableOpacity onPress={() => navigation.navigate('Create', { username })}>
+        <Text style={styles.button2}>Create</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={handleRefresh}>
         <Text style={styles.button2}>Refresh</Text>
       </TouchableOpacity>
-      <Text style={styles.return}>Want to return?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Welcome")} style={styles.button}>
-            <Text style={styles.button2}>BACK TO WELCOME</Text>
-            </TouchableOpacity>
+      <Text style={styles.return}>Hint: New? Tap on "Create" to create a task</Text>
     </View>
     </React.Fragment>
   );

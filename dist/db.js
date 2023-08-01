@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.delete_Todo = exports.get_Todo = exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = exports.updateItem = exports.deleteItem = exports.addToDo = void 0;
+exports.delete_Todo = exports.get_Todo = exports.add_Todo = exports.comparePasswords = exports.findUserByUsername = exports.createUser = exports.getList = void 0;
 const keys_1 = require("./keys");
 const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
@@ -33,95 +33,6 @@ const ping = function () {
 };
 // ping();
 // basic commands - add, delete, update and read users
-// add a new to do
-const addToDo = function (creationData) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield client.connect();
-            const myDB = yield client.db('To_do_list');
-            const myCollection = myDB.collection('To-dos');
-            const result = yield myCollection.insertOne(creationData);
-            console.log(`Inserted new to-do`);
-        }
-        catch (error) {
-            if (error instanceof MongoServerError) {
-                console.log(`Error ${error}`);
-            }
-            throw error;
-        }
-        finally {
-            yield client.close();
-        }
-    });
-};
-exports.addToDo = addToDo;
-//test post method for adding a new task to the database
-// const new_do: item = {
-//     name: "Water my plants",
-//     description: "My plants are dying",
-//     creation_date: "7/14/2023"
-// }
-// addToDo(new_do)
-// deletes a to-do
-const deleteItem = function (name) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield client.connect();
-            const myDB = yield client.db('To_do_list');
-            const myCollection = myDB.collection('To-dos');
-            const result = yield myCollection.deleteOne(name);
-            if (result.deletedCount === 1) {
-                console.log("Successfully deleted that TO-do.");
-            }
-            else {
-                console.log("That TO-do doesn't exist - nothing to delete");
-            }
-        }
-        catch (error) {
-            if (error instanceof MongoServerError) {
-                console.log(`Error ${error}`);
-            }
-            throw error;
-        }
-        finally {
-            yield client.close();
-        }
-    });
-};
-exports.deleteItem = deleteItem;
-// this is a wrong name to test - enter a correct name to make sure it deletes
-// deleteItem({"name": "Fight a bear!"});
-// updates an item
-const updateItem = function (name, updateData) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            yield client.connect();
-            const myDB = yield client.db('To_do_list');
-            const myCollection = myDB.collection('To-dos');
-            const newChange = {
-                $set: updateData
-            };
-            const result = yield myCollection.updateOne(name, newChange);
-            if (result.modifiedCount > 0) {
-                console.log("Updated that TO-do!");
-            }
-            else {
-                console.log("That TO-do doesn't exist - nothing to update");
-            }
-        }
-        catch (error) {
-            if (error instanceof MongoServerError) {
-                console.log(`Error ${error}`);
-            }
-            throw error;
-        }
-        finally {
-            yield client.close();
-        }
-    });
-};
-exports.updateItem = updateItem;
-// updateItem({"name": "test"}, {"description": "Code my update for me please"})
 // gets all the to-dos
 const getList = function () {
     return __awaiter(this, void 0, void 0, function* () {
@@ -215,7 +126,7 @@ const comparePasswords = function (password, hashedPassword) {
     });
 };
 exports.comparePasswords = comparePasswords;
-// re-doing method for adding to-do's
+//adding to-do's
 const add_Todo = function (username, newItem) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
