@@ -1,9 +1,7 @@
-import { error } from 'console';
 import express, { Express, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import { getList, createUser, findUserByUsername, comparePasswords, add_Todo, get_Todo, delete_Todo } from './db'
 import { uri_key } from './keys';
-
 
 // const session = require('express-session'); 
 import session, { Session } from 'express-session';
@@ -33,13 +31,6 @@ app.get('/to-do', async (req: Request, res: Response) => {
     var results = await getList();
     return res.status(200).send(results);
 })
-
-interface new_changes {
-    description: string,
-    creation_date: string
-}
-
-
 
 // user login
 // this signs up a user 
@@ -89,7 +80,6 @@ app.post('/login', async (req: Request, res: Response) => {
     // other wise - login
     req.session.user = existingUser._id;
     res.json({ Message: 'Login successful!' });
-
 })
 
 // log out
@@ -149,8 +139,6 @@ app.post('/delete/:username', async (req: Request, res: Response) => {
     return res.status(201).json({Success: "Delete that to-do!"})
 })
 
-// app.listen(5678);
-// console.log("Server is running...");
 const port = 5678;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)

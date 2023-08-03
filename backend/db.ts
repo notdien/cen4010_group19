@@ -8,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 // uncomment if needed
 
-// pings the db to make sure it works for
+// pings the db
 const ping = async function() {
     try {
         await client.connect();
