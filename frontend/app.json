@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "frontend",
-    "slug": "frontend",
+    "name": "TaskHUB",
+    "slug": "task-hub",
+    "description": "Track your To-do's!",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
