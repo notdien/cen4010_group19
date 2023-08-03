@@ -9,9 +9,12 @@ export default function Signup( {navigation} ) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    // hides text
+    const [isHidden, setIsHidden] = useState(true);
+
     const handleSignup = async () => {
         try {
-            const response = await axios.post('http://localhost:5678/signup', {
+            const response = await axios.post('http://localhost:5678/login', {
                 username,
                 password,
             });
@@ -42,6 +45,7 @@ export default function Signup( {navigation} ) {
                 placeholder="             Enter New Password"
                 autoCompleteType="password"
                 style={styles.textInput}
+                secureTextEntry={isHidden}
             />
             <TouchableOpacity onPress={handleSignup} style={styles.button}>
             <Text style={styles.button2}>CREATE NEW USER!</Text>

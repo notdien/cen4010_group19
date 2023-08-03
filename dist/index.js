@@ -28,9 +28,9 @@ app.use((0, express_session_1.default)({
     origin: 'http://localhost:19006' // replace with your actual origin
     // origin: 'http://localhost:5000'
 }));
-app.get('/', (req, res) => {
-    res.send('Express + TypeScript Server');
-});
+// app.get('/', (req: Request, res: Response) => {
+//     res.send('Express + TypeScript Server');
+// });
 // basic commands
 // gets all the to-dos
 app.get('/to-do', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -110,8 +110,6 @@ app.post('/delete/:username', (req, res) => __awaiter(void 0, void 0, void 0, fu
     (0, db_1.delete_Todo)(username, name);
     return res.status(201).json({ Success: "Delete that to-do!" });
 }));
-// app.listen(5678);
-// console.log("Server is running...");
 const port = 5678;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

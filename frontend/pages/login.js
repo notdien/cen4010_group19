@@ -10,6 +10,9 @@ export default function Login({navigation} ) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    // hides text
+    const [isHidden, setIsHidden] = useState(true);
+
     const handleLogin = async () => {
         try {
             const response = await axios.post('http://localhost:5678/login', {
@@ -53,6 +56,7 @@ export default function Login({navigation} ) {
                 placeholder="                  Enter Password"
                 autoCompleteType="password"
                 style={styles.textInput}
+                secureTextEntry={isHidden}
             />
             <TouchableOpacity onPress={handleLogin} style={styles.button}>
             <Text style={styles.button2}>LOGIN!</Text>

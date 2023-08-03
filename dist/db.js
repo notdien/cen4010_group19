@@ -15,7 +15,7 @@ const { MongoClient, MongoServerError } = require('mongodb');
 const client = new MongoClient(keys_1.uri_key);
 const bcrypt = require('bcrypt');
 // uncomment if needed
-// pings the db to make sure it works for
+// pings the db
 const ping = function () {
     return __awaiter(this, void 0, void 0, function* () {
         try {
