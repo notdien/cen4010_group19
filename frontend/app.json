@@ -16,7 +16,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.123cow123.taskhub"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,6 +27,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "61ef5258-6ae2-4457-ae17-312a802fc522"
+      }
     }
   }
 }

@@ -14,7 +14,7 @@ export default function Signup( {navigation} ) {
 
     const handleSignup = async () => {
         try {
-            const response = await axios.post('http://localhost:5678/login', {
+            const response = await axios.post('http://192.168.1.178:5678/signup', {
                 username,
                 password,
             });
@@ -23,7 +23,13 @@ export default function Signup( {navigation} ) {
             navigation.navigate('Home', { username });
         }
         catch (error) {
-            console.log(error);
+            if(error.response) {
+                console.error('Response error: ', error.response.data);
+            } else if (error.request) {
+                console.error('Request error: ', error.request);
+            } else {
+                console.error('Error: ', error.message);
+            }
         }
     };
 
