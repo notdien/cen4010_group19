@@ -13,7 +13,7 @@ export default function Home({ route, navigation }) {
     // Fetch user data from the server using the username
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5678/read/${username}`);
+        const response = await axios.get(`http://192.168.1.178:5678/read/${username}`);
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -26,7 +26,7 @@ export default function Home({ route, navigation }) {
   const handleDelete = async () => {
     try {
       if (selectedToDo) {
-        await axios.post(`http://localhost:5678/delete/${username}`, { name: selectedToDo.name });
+        await axios.post(`http://192.168.1.178:5678/delete/${username}`, { name: selectedToDo.name });
         // Update the user data after deletion
         setUserData(userData.filter((todo) => todo.name !== selectedToDo.name));
         setSelectedToDo(null); // Clear the selected to-do item after deletion
@@ -45,7 +45,7 @@ export default function Home({ route, navigation }) {
 
   const handleRefresh = async () => {
     try {
-      const response = await axios.get(`http://localhost:5678/read/${username}`);
+      const response = await axios.get(`http://192.168.1.178:5678/read/${username}`);
       setUserData(response.data);
       console.log("Successful Refresh!")
     } catch (error) {

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, View, Text, TextInput,TouchableOpacity  } from "react-native";
+import { StyleSheet, Button, View, Text, TextInput,TouchableOpacity, TouchableWithoutFeedback  } from "react-native";
 import styles from './styles';
 import axios from 'axios';
+import { Keyboard } from 'react-native';
 
 export default function Signup( {navigation} ) {
     console.log("Welcome to the signup")
@@ -34,7 +35,8 @@ export default function Signup( {navigation} ) {
     };
 
     return (
-        <View style ={styles.container}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+                    <View style ={styles.container}>
             <Text style={styles.welcome2}>Let's get you signed up!</Text>
             <TextInput
                 id = "username"
@@ -43,6 +45,7 @@ export default function Signup( {navigation} ) {
                 placeholder="             Enter New Username"
                 autoCompleteType="username"
                 style={styles.textInput}
+                placeholderTextColor= 'white'
             />
             <TextInput
                 id = "password"
@@ -52,6 +55,7 @@ export default function Signup( {navigation} ) {
                 autoCompleteType="password"
                 style={styles.textInput}
                 secureTextEntry={isHidden}
+                placeholderTextColor= 'white'
             />
             <TouchableOpacity onPress={handleSignup} style={styles.button}>
             <Text style={styles.button2}>CREATE NEW USER!</Text>
@@ -61,5 +65,6 @@ export default function Signup( {navigation} ) {
             <Text style={styles.button2}>BACK TO WELCOME</Text>
             </TouchableOpacity>
         </View>
+        </TouchableWithoutFeedback>
     )
 }

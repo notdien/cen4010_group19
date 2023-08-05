@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import { Button, StyleSheet, View, TouchableOpacity, Text, TextInput } from 'react-native';
+import { Button, StyleSheet, View, TouchableOpacity, Text, TextInput, TouchableWithoutFeedback } from 'react-native';
 import styles from './styles';
 import axios from 'axios';
+import { Keyboard } from 'react-native';
 
 
 export default function Login({navigation} ) {
@@ -15,7 +16,7 @@ export default function Login({navigation} ) {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:5678/login', {
+            const response = await axios.post('http://192.168.1.178:5678/login', {
                 username,
                 password
             });
@@ -39,6 +40,7 @@ export default function Login({navigation} ) {
 
     return (
         <React.Fragment>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
             <View style ={styles.container}>
             <Text style={styles.welcome2}>Login</Text>
             <TextInput
@@ -48,6 +50,7 @@ export default function Login({navigation} ) {
                 placeholder="                  Enter Username"
                 autoCompleteType="username"
                 style={styles.textInput}
+                placeholderTextColor= 'white'
             />
             <TextInput
                 id = "password"
@@ -57,6 +60,7 @@ export default function Login({navigation} ) {
                 autoCompleteType="password"
                 style={styles.textInput}
                 secureTextEntry={isHidden}
+                placeholderTextColor= 'white'
             />
             <TouchableOpacity onPress={handleLogin} style={styles.button}>
             <Text style={styles.button2}>LOGIN!</Text>
@@ -66,6 +70,7 @@ export default function Login({navigation} ) {
             <Text style={styles.button2}>BACK TO WELCOME</Text>
             </TouchableOpacity>
             </View>
+            </TouchableWithoutFeedback>
         </React.Fragment>
     )
 }
